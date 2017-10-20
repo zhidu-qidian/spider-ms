@@ -1,0 +1,97 @@
+{% extends "admin/base.html" %}
+{% from "admin/macros.html" import bread with context %}
+{% from "admin/macros.html" import paginate with context %}
+
+
+{% block title %}
+{{ super() }}|-解析异常汇报
+{% endblock %}
+
+
+{% block content %}
+
+{{ bread("解析异常汇报","/except_report") }}
+<div class="container-fluid">
+    <center>
+        <form action="/except_report" method="get" class="Noprint">
+            <select id="types" name="type">
+                <option selected="selected" value='all'>全部异常</option>
+                <option value='list'>列表解析异常</option>
+                <option value='detail'>详情解析异常</option>
+                <option value='unknown'>Unknown异常'</option>
+            </select>
+            <button type="submit" class="tip-bottom" title="查询"><i
+                    class="icon-search"></i>查询
+            </button>
+        </form>
+    </center>
+    <div class="row-fluid">
+
+        <div class="span12">
+            <div class="widget-box">
+                <div class="widget-title">
+                    <span class="icon"><i class="icon-th"></i></span>
+                    <h5>查询结果 总数：{{total_count}}</h5>
+                    <input class="btn-primary Noprint" value="输出PDF" type="button"
+                           onclick="javascript: ui =document.getElementById('sidebar');
+ui.style.visibility='hidden';window.print();ui.style.visibility='visible'"/>
+                    <input class="btn-primary Noprint" value="输出Excel" type="button"
+                           onclick="javascript:tableToExcel('result_table','解析异常汇报');"/>
+
+                </div>
+                <div class="widget-content nopadding">
+                    <table class="table table-bordered data-table" id="result_table">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>异常类型</th>
+                            <th>Task</th>
+                            <th>Error_Info</th>
+                            <th>Ex-Info</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in result%}
+                        <tr>
+                            <td>{{item.date}}</td>
+                            <td>{{item.type}}</td>
+                            <td>{{item.task}}</td>
+                            <td>{{item.error_info}}</td>
+                            <td>{{item.ex_info}}</td>
+                        </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js_ex %}
+<script>
+    var tableToExcel = (function () {
+        var uri = 'data:application/vnd.ms-excel;base64,',
+            template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><?xml version="1.0" encoding="UTF-8" standalone="yes"?><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>',
+            base64 = function (s) {
+                return window.btoa(unescape(encodeURIComponent(s)))
+            },
+            format = function (s, c) {
+                return s.replace(/{(\w+)}/g,
+                    function (m, p) {
+                        return c[p];
+                    })
+            }
+        return function (table, name) {
+            if (!table.nodeType) table = document.getElementById(table)
+            var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+            window.location.href = uri + base64(format(template, ctx))
+        }
+    })()
+</script>
+<!--<script src="{{ url_for('static', filename='js/spider_monitor.js')}}"></script>-->
+{% endblock %}

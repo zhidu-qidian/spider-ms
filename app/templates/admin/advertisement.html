@@ -1,0 +1,52 @@
+{% extends "admin/base.html" %}
+{% from "admin/macros.html" import bread with context %}
+
+
+{% block title %}
+{{ super() }}|-广告图
+{% endblock %}
+
+
+{% block content %}
+
+{{ bread("广告图","/advertisement") }}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <form id="check_parse_form" action="/api/advertisement/" method="post" class="form-horizontal"
+                  enctype=multipart/form-data>
+                <div class="control-group">
+                    <div class="controls">
+                        <input name="url" type="text" class="span6" placeholder="url"/>
+                        <input name="referer" type="text" class="span2" placeholder="referer"/>
+                        <input name="md5" type="text" class="span2" placeholder="md5"/>
+                        <button id="test_parse_btn" type="submit" class="btn btn-success">测试添加</button>
+                        <button id="reset_form" type="reset" class="btn btn-warning">清空</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="widget-box">
+            <div class="widget-title"><span class="icon"> <i class="icon-info-sign"></i> </span>
+                <h5>解析结果</h5>
+                <input id="Collapsed" class=" hide "
+                       value="{{ url_for('static', filename='img/Collapsed.gif')}}"> </input>
+                <input id="Expanded" class=" hide "
+                       value="{{ url_for('static', filename='img/Expanded.gif')}}"> </input>
+            </div>
+            <div class="widget-content">
+                <div id="parse_result">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block js_ex %}
+<script src="{{ url_for('static', filename='js/lib/jsonFormater.js')}}"></script>
+<link href="{{ url_for('static', filename='css/lib/jsonFormater.css')}}" type="text/css" rel="stylesheet"/>
+<script src="{{ url_for('static', filename='js/check_parse.js')}}"></script>
+{% endblock %}

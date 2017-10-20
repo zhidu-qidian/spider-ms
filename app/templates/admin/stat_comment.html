@@ -1,0 +1,124 @@
+{% extends "admin/base.html" %}
+{% from "admin/macros.html" import bread with context %}
+
+
+{% block title %}
+{{ super() }}|-评论统计
+{% endblock %}
+
+
+{% block content %}
+
+{{ bread("评论统计","/stat_comment") }}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <!-- Example Bar Chart Card -->
+        <div class="span12">
+            <div class="widget-box">
+                <div class="widget-title">
+                    <i class="icon-bar-chart"></i> 概览
+                </div>
+                <div class="widget-content">
+                    <div class="row">
+                        <div class="span5" id="comment_pie" style=' width="100"; height="60"'></div>
+                        <div class="span5">
+                            <div class="table">
+                                <table class="table text-center">
+                                    <thead class="">
+                                    <tr>
+                                        <th>\</th>
+                                        <th>最大值</th>
+                                        <th>最小值</th>
+                                        <th>中位数</th>
+                                        <th>众数</th>
+                                        <th>平均数</th>
+                                        <th>方差</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr id="weibo_stat" class="">
+                                        <td>微博</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                    </tr>
+                                    <tr id="kuaibao_stat" class="">
+                                        <td>快报</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                    </tr>
+                                    <tr id="wechat_stat" class="">
+                                        <td>微信</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                    </tr>
+                                    <tr id="netease_stat" class="">
+                                        <td>网易</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                    </tr>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <div class="span2 ">
+                            入库新闻量
+                            <div id="total_news" class="badge badge-success">0</div>
+                            <hr>
+                            有评论新闻
+                            <div id="total_news_c" class="badge badge-success">0</div>
+                            <hr>
+                            微博扫描数量
+                            <div id="weibo_scan" class="badge badge-success">0</div>
+                            <hr>
+                            微博获得评论量
+                            <div id="weibo_get" class="badge badge-success">0</div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Area Chart Example -->
+        <div class="span12">
+            <div class="widget-box">
+                <div class="widget-title">
+                    <i class="fa fa-bar-chart"></i> 各频道评论分布
+                </div>
+                <div id="week_stat" class="card-block" style="width: 100%;height:400px;">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js_ex %}
+<script src="{{ url_for('static', filename='js/lib/echarts.js')}}"></script>
+<script src="{{ url_for('static', filename='js/stat_comment.js')}}"></script>
+
+{% endblock %}

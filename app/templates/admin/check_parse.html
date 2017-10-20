@@ -1,0 +1,60 @@
+{% extends "admin/base.html" %}
+{% from "admin/macros.html" import bread with context %}
+{% from "admin/macros.html" import paginate with context %}
+
+
+{% block title %}
+{{ super() }}|-解析测试
+{% endblock %}
+
+
+{% block content %}
+
+{{ bread("解析测试","/check_parse") }}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <form id="check_parse_form" action="/api/check_parse/" method="post" class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label">解析类别 :</label>
+                    <div class="controls">
+                        <select class="span2" name="check_type">
+                            <option value="list">列表解析测试</option>
+                            <option value="detail">详情解析测试</option>
+                            <option value="page">分页解析测试</option>
+                        </select>
+                        <input name="arg1" type="text" class="span6" placeholder="参数1"/>
+                        <input name="arg2" type="text" class="span2" placeholder="参数2"/>
+                        <button id="check_parse_btn" type="submit" class="btn btn-success">开始测试</button>
+                        <button id="reset_form" type="reset" class="btn btn-warning">清空</button>
+                    </div>
+                </div>
+                        </form>
+
+        </div>
+
+
+        <div class="widget-box">
+            <div class="widget-title"><span class="icon"> <i class="icon-info-sign"></i> </span>
+                <h5>解析结果</h5>
+                <input id="Collapsed" class=" hide "
+                       value="{{ url_for('static', filename='img/Collapsed.gif')}}"> </input>
+                <input id="Expanded" class=" hide "
+                       value="{{ url_for('static', filename='img/Expanded.gif')}}"> </input>
+            </div>
+            <div class="widget-content">
+                <div id="parse_result">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block js_ex %}
+<script src="{{ url_for('static', filename='js/lib/jsonFormater.js')}}"></script>
+<link href="{{ url_for('static', filename='css/lib/jsonFormater.css')}}" type="text/css" rel="stylesheet"/>
+<script src="{{ url_for('static', filename='js/check_parse.js')}}"></script>
+{% endblock %}

@@ -1,0 +1,224 @@
+{% extends "admin/base.html" %}
+{% from "admin/macros.html" import bread with context %}
+
+
+{% block title %}
+{{ super() }}|-添加频道/公众号
+{% endblock %}
+
+
+{% block content %}
+
+{{ bread("添加频道(公众号)","/add_channel") }}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="widget-box">
+                <div class="widget-title"><span class="icon"> <i class="icon-align-justify"></i> </span>
+                    <h5>频道信息</h5>
+                </div>
+                <div class="widget-content nopadding">
+                    <form id="add_channel_form" action="/api/add_channel/" method="post" class="form-horizontal">
+                        <div class="control-group">
+                            <label class="control-label">网站域名 :</label>
+                            <div class="controls">
+                                <input name="domain" type="text" class="span11" value="{{domain}}" placeholder=""/>
+
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">频道名称 :</label>
+                            <div class="controls">
+                                <input name="cname" type="text" class="span11" placeholder=""/>
+
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">选择媒体形式</label>
+                            <div class="controls">
+                                <select name="media_type">
+                                    {% for data_form in data_forms %}
+                                    <option value='{{data_form["_id"]}}'>{{data_form["_id"]}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">权重/优先级 :</label>
+                            <div class="controls">
+                                <select name="priority">
+                                    <option value="5">5</option>
+                                    <option value="4">4</option>
+                                    <option value="3">3</option>
+                                    <option value="2">2</option>
+                                    <option value="1">1</option>
+                                </select>
+                                <span class="help-block">区间1-5,数越大，权重越高</span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">一级分类 :</label>
+                            <div class="controls">
+                                <select id="cate1_select" name="cate1">
+                                    <option selected="selected" value='0'>--无--</option>
+                                    {% for item in cate1_items %}
+                                    <option value='{{item["name"]}}'>{{item["name"]}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">二级分类 :</label>
+                            <div class="controls">
+                                <select id="cate2_select" name="cate2"></select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">奇点一级 :</label>
+                            <div class="controls">
+                                <select id="qd_cate1" name="qd_cate1">
+                                    <option selected="selected" value='0'>--无--</option>
+                                    {% for item in qd_cate1 %}
+                                    <option value='{{item["id"]}}'>{{item["name"]}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">奇点二级 :</label>
+                            <div class="controls">
+                                <select id="qd_cate2" name="qd_cate2"></select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">频道数据用途 :</label>
+                            <div class="controls">
+                                <div class="span12">
+                                    <label class="span1"><input checked="checked" value="general" type="checkbox"
+                                                                name="target_type"/>一般类型</label>
+                                    <label class="span1"><input value="big" type="checkbox" name="target_type"/>
+                                        大图类型</label>
+                                    <label class="span1">
+                                        <input value="hot" type="checkbox" name="target_type"/>
+                                        热点类型</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">频道图标 :</label>
+                            <div class="controls">
+                                <input name="icon-file" class="span11" type="file"/>
+                                <input name="icon-url" type="text" class="span11" placeholder=""/>
+                                <span class="help-block">本地上传图标或填写图标网址</span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">频道描述</label>
+                            <div class="controls">
+                                <textarea name="desc" class="span11"></textarea>
+                            </div>
+                        </div>
+                        <hr color=#FF0000 SIZE=13>
+                        <div class="control-group">
+                            <label class="control-label">crawler :</label>
+                            <div class="controls">
+                                <input name="crawler" type="text" class="span11" placeholder=""/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">频道url :</label>
+                            <div class="controls">
+                                <input name="url" type="text" class="span11" placeholder=""/>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">params :</label>
+                            <div class="controls">
+                                <input name="params" type="text" class="span11" placeholder=""/>
+                                <span class="help-block">Tip:无论何种请求，都采用GET的&链接参数形式</span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">headers :</label>
+                            <div class="controls">
+                                <input name="headers" type="text" class="span11" placeholder=""/>
+                                <span class="help-block">Tip:item用(#)分割，K/V用(:)分割</span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">method :</label>
+                            <div class="controls">
+                                <select name="method">
+                                    <option value="GET">GET</option>
+                                    <option value="POST">POST</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">UA类型 :</label>
+                            <div class="controls">
+                                <select name="ua_type">
+                                    <option value="pc">pc</option>
+                                    <option value="phone">phone</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr color=#FF0000 SIZE=13>
+                        <div class="control-group">
+                            <label class="control-label">调度规则 :</label>
+                            <div class="controls">
+                                <input name="rules" type="text" class="span11" placeholder=""/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">是否调度 :</label>
+                            <div class="controls">
+                                <select name="is_sch">
+                                    <option value="1">是</option>
+                                    <option value="0">否</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
+                        <hr color=#FF0000 SIZE=13>
+
+                        <div class="control-group">
+                            <label class="control-label">Author(可选)</label>
+                            <div class="controls">
+                                <input name="author" type="text" class="span11" placeholder=""/>
+                                <span class="help-block">微信专属</span>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">biz(可选)</label>
+                            <div class="controls">
+                                <input name="biz" type="text" class="span11" placeholder=""/>
+                                <span class="help-block">微信专属</span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">认证信息(可选)</label>
+                            <div class="controls">
+                                <input name="certification" type="text" class="span11" placeholder=""/>
+                                <span class="help-block">微信专属</span>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-success">确认添加</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block js_ex %}
+<script src="{{ url_for('static', filename='js/add_channel.js')}}"></script>
+
+{% endblock %}

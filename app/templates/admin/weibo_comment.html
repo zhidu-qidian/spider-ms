@@ -1,0 +1,59 @@
+{% extends "admin/base.html" %}
+{% from "admin/macros.html" import bread with context %}
+{% from "admin/macros.html" import paginate with context %}
+{% from "admin/macros.html" import dialog with context %}
+
+
+{% block title %}
+{{ super() }}|-微博评论查询
+{% endblock %}
+
+
+{% block content %}
+
+{{ bread("微博评论查询","/weibo_comment") }}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <form id="weibo_comment_form" action="/api/weibo_comment/" method="post" class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label">根据 :</label>
+                    <div class="controls">
+                        <select class="span2" name="by">
+                            <option value="title">新闻标题</option>
+                            <option value="url">新闻原始URL</option>
+                            <option value="nid">新闻nid</option>
+                        </select>
+                        <input name="content" type="text" class="span8" placeholder=""/>
+                        <button id="weibo_comment_btn" type="submit" class="btn btn-success">查询</button>
+                        <button id="reset_form" type="reset" class="btn btn-warning">清空</button>
+                    </div>
+                </div>
+                        </form>
+        </div>
+
+        <div class="widget-box">
+            <div class="widget-title"><span class="icon"> <i class="icon-info-sign"></i> </span>
+                <h5>查询结果</h5>
+                <input id="Collapsed" class=" hide "
+                       value="{{ url_for('static', filename='img/Collapsed.gif')}}"> </input>
+                <input id="Expanded" class=" hide "
+                       value="{{ url_for('static', filename='img/Expanded.gif')}}"> </input>
+            </div>
+            <div class="widget-content">
+                <div id="weibo_comment_result">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js_ex %}
+<script src="{{ url_for('static', filename='js/lib/jsonFormater.js')}}"></script>
+<link href="{{ url_for('static', filename='css/lib/jsonFormater.css')}}" type="text/css" rel="stylesheet"/>
+<script src="{{ url_for('static', filename='js/weibo_comment.js')}}"></script>
+{% endblock %}

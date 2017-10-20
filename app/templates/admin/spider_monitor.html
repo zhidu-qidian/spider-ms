@@ -1,0 +1,88 @@
+{% extends "admin/base.html" %}
+{% from "admin/macros.html" import bread with context %}
+{% from "admin/macros.html" import paginate with context %}
+
+
+{% block title %}
+{{ super() }}|-数据监控
+{% endblock %}
+
+
+{% block content %}
+
+{{ bread("数据监控","/spider_monitor") }}
+<div class="container-fluid">
+    <center>
+        <form action="/spider_monitor" method="get">
+            <select id="status" name="status">
+                <option value=''>全部</option>
+                <option value='0'>列表页解析-[完成]</option>
+                <option value='10000'>详情页下载-[完成]</option>
+                <option value='20000'>详情页解析-[完成]</option>
+                <option value='21000'>详情页解析-[域名不支持]</option>
+                <option value='22000'>详情页解析-[未解析出已知字段]</option>
+                <option value='30000'>清洗过滤-[完成]</option>
+                <option value='31000'>清洗过滤-[状态不合法]</option>
+                <option value='40000'>资源处理-[完成]</option>
+                <option value='41000'>资源处理-[下载失败]</option>
+                <option value='42000'>资源处理-[上传失败]</option>
+                <option value='50000'>字段准备-[完成]</option>
+                <option value='60000'>资讯存储-[完成]</option>
+                <option value='61000'>资讯存储-[失败]</option>
+
+
+            </select>
+            <select id="types" name="types">
+                <option selected="selected" value=''>全部</option>
+                <option value='news'>新闻</option>
+                <option value='atlas'>图集</option>
+                <option value='video'>视频</option>
+                <option value='joke'>段子</option>
+                <option value='picture'>图片</option>
+
+            </select>
+            <button type="submit" class="tip-bottom" title="查询"><i
+                    class="icon-search"></i>查询
+            </button>
+        </form>
+    </center>
+    <div class="row-fluid">
+
+        <div class="span12">
+            <div class="widget-box">
+                <div class="widget-title"><span class="icon"><i class="icon-th"></i></span><h5>查询结果 总数：</h5></div>
+                <div class="widget-content nopadding">
+                    <table class="table table-bordered data-table">
+                        <thead>
+                        <tr>
+                            <th>时间</th>
+                            <th>频道ID</th>
+                            <th>Request ID</th>
+                            <th>类型</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in result%}
+                        <tr>
+                            <td>{{item.time}}</td>
+                            <td>{{item.channel}}</td>
+                            <td>{{item._id}}</td>
+                            <td>{{item.form}}</td>
+
+                        </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js_ex %}
+<!--<script src="{{ url_for('static', filename='js/spider_monitor.js')}}"></script>-->
+{% endblock %}

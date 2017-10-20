@@ -1,0 +1,82 @@
+{% extends "admin/base.html" %}
+{% from "admin/macros.html" import bread with context %}
+
+
+{% block title %}
+{{ super() }}|-修改{{site["name"]}}
+{% endblock %}
+
+
+{% block content %}
+
+{{ bread("修改网站","#") }}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="widget-box">
+                <div class="widget-title"><span class="icon"> <i class="icon-align-justify"></i> </span>
+                    <h5>网站信息</h5>
+                </div>
+                <div class="widget-content nopadding">
+                    <form id="modify_site_form" action="/api/modify_site/" method="post" class="form-horizontal"
+                          enctype=multipart/form-data>
+                        <div class="control-group">
+                            <label class="control-label">网站域名 :</label>
+                            <div class="controls">
+                                <input name="domain" type="text" class="span11" value='{{site["domain"]}}'/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">网站名称 :</label>
+                            <div class="controls">
+                                <input name="name" type="text" class="span11" value='{{site["name"]}}'/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">网站图标(可选) :</label>
+                            <div class="controls">
+                                当前-><img src='{{site["icon"]}}'>
+                                <hr color="#ff0000" size="5">
+                                <input name="icon-file" class="span11" type="file"/>
+                                <input name="icon-url" type="text" class="span11" value='{{site["icon"]}}'/>
+                                <span class="help-block">本地上传图标或填写图标网址来更新网站Icon</span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">权重/优先级 :</label>
+                            <div class="controls">
+                                <select name="priority" class="span11">
+                                    {% for i in range(5,-1,-1) %}
+                                    {% if site["priority"] == i %}
+                                    <option selected="selected" value="{{i}}">{{i}}</option>
+                                    {% else %}
+                                    <option value="{{i}}">{{i}}</option>
+                                    {%endif%}
+                                    {%endfor%}
+                                </select>
+                                <span class="help-block">区间1-5,数越大，权重越高</span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">网站描述</label>
+                            <div class="controls">
+                                <textarea name="desc" class="span11">{{site["description"]}}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button id="add_site_sub" type="submit" class="btn btn-success">确认修改</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block js_ex %}
+<script src="{{ url_for('static', filename='js/modify_site.js')}}"></script>
+{% endblock %}

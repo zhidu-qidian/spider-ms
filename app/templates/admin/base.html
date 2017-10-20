@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style media=print>
+        .Noprint {
+            display: none;
+        }
+
+        <!--
+        用本样式在打印时隐藏非打印项目-- >
+    </style>
+    <title>
+        {% block title %}
+            数据源管理
+        {% endblock %}
+    </title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="referrer" content="never">
+    <link rel="icon" href="{{ url_for('static', filename='img/icon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lib/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lib/bootstrap-responsive.min.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lib/fullcalendar.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lib/matrix-style.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lib/matrix-media.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome/css/font-awesome.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lib/jquery.gritter.css') }}"/>
+    <!--<link href='http://fonts.useso.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>-->
+
+</head>
+<body>
+
+<!--Header-part-->
+<div id="header" class="Noprint">
+    <h1><a href="dashboard.html">Matrix Admin</a></h1>
+</div>
+<!--close-Header-part-->
+
+
+<!--top-Header-menu-->
+<div id="user-nav" class="navbar navbar-inverse Noprint">
+    <ul class="nav">
+        <li class=""><a title="" href="/logout"><i class="icon icon-share-alt"></i> <span class="text">退出</span></a>
+        </li>
+    </ul>
+</div>
+<!--close-top-Header-menu-->
+<!--start-top-serch-->
+<!--<div id="search">-->
+<!--<input type="text" placeholder="Search here..."/>-->
+<!--<button type="submit" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>-->
+<!--</div>-->
+<!--close-top-serch-->
+<!--sidebar-menu-->
+<div class="Noprint" id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
+    {% block sidebar %}
+        <ul>
+            <li class="active"><a href="/"><i class="icon icon-home"></i> <span>主页</span></a></li>
+            <li><a href="/spider_monitor">任务时情</a></li>
+            <li><a href="/redis_info">Redis时情</a></li>
+            <li><a href="/db_query"><i class="icon icon-search"></i> <span>库表查询</span></a></li>
+            <li><a href="/search_site"><i class="icon icon-sitemap"></i> <span>一级源管理</span></a></li>
+            <li><a href="/search_channel"><i class="icon icon-sitemap"></i> <span>二级源管理</span></a></li>
+            <li><a href="/check_parse"><i class="icon icon-ok"></i> <span>解析测试</span></a></li>
+            <li><a href="/except_report"><i class="icon icon-ok"></i> <span>解析异常汇报</span></a></li>
+            <li><a href="/weibo_comment"><i class="icon icon-ok"></i> <span>微博评论查询</span></a></li>
+            <li><a href="/advertisement"><i class="icon icon-ok"></i> <span>广告图</span></a></li>
+            <li><a href="/add_channel?domain=weixin.qq.com"><i class="icon icon-plus-sign"></i> <span>微信公众号添加</span>
+            </a></li>
+            <li><a href="#">
+                <del>评论统计</del>
+            </a></li>
+            <li><a href="/filter_rule"><i class="icon icon-plus-sign"></i><span>奇点专用</span></a></li>
+        </ul>
+    {% endblock %}
+</div>
+
+<div id="content">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<!--end-main-container-part-->
+
+<!--Footer-part-->
+
+<div class="row-fluid">
+    <div id="footer" class="span12"> 2017 &copy; <a href="http://www.genimous.com/index.html"
+                                                    target="_blank">奇点资讯@智度</a></div>
+</div>
+
+<!--end-Footer-part-->
+
+<script src="{{ url_for('static', filename='js/lib/excanvas.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/jquery.ui.custom.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/jquery.flot.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/jquery.flot.resize.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/jquery.peity.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/fullcalendar.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/matrix.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/matrix.dashboard.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/jquery.gritter.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/matrix.interface.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/jquery.validate.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/matrix.form_validation.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/jquery.wizard.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/jquery.uniform.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/select2.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/matrix.popover.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/jquery.form.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/lib/matrix.tables.js') }}"></script>
+
+{% block js_ex %}
+{% endblock %}
+
+{% block watermask %}
+    {% if config.DEBUG %}
+        <script src="{{ url_for('static', filename='js/watermark.js') }}"></script>
+        <script type="text/javascript">
+            var username = "----Tacey Wong";
+            var warning = "当前为DEBUG模式，运营人员切勿操作" + username;
+            watermark({"watermark_txt": warning});
+        </script>
+    {% endif %}
+
+{% endblock %}
+<script type="text/javascript">
+    // This function is called from the pop-up menus to transfer to
+    // a different page. Ignore if the value returned is a null string:
+    function goPage(newURL) {
+
+        // if url is empty, skip the menu dividers and reset the menu selection to default
+        if (newURL != "") {
+
+            // if url is "-", it is this page -- reset the menu:
+            if (newURL == "-") {
+                resetMenu();
+            }
+            // else, send page to designated URL
+            else {
+                document.location.href = newURL;
+            }
+        }
+    }
+
+    // resets the menu selection upon entry to this page:
+    function resetMenu() {
+        document.gomenu.selector.selectedIndex = 2;
+    }
+
+
+</script>
+<style media=print>
+    .Noprint {
+        display: none;
+    }
+
+</style>
+</body>
+</html>

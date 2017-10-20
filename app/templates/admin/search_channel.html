@@ -1,0 +1,146 @@
+{% extends "admin/base.html" %}
+{% from "admin/macros.html" import bread with context %}
+{% from "admin/macros.html" import paginate with context %}
+
+
+{% block title %}
+{{ super() }}|-查询修改频道
+{% endblock %}
+
+
+{% block content %}
+
+{{ bread("查询修改频道","/search_channel") }}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="widget-box">
+                <div class="widget-title"><span class="icon"><i class="icon-th"></i></span>
+                    <a href="/add_channel">
+                        <button class="btn btn-success">添加频道</button>
+                    </a>
+                    <div id="search">
+                        <form>
+                            {% set condition_by = [('site_domain','域名'),
+                                                    ('site_id', '网站ID'),
+                                                    ('site_name', '网站名称'),
+                                                    ('channel_id','频道ID'),
+                                                    ('channel_name','频道名称')] %}
+                            {% for condition in condition_by %}
+                            {% if by == condition[0] %}
+                            <input type="radio" checked="checked" name="by" value="{{condition[0]}}"/>按照{{condition[1]}}
+                            {% else %}
+                            <input type="radio"  name="by" value="{{condition[0]}}"/>按照{{condition[1]}}
+                            {% endif %}
+                            {% endfor %}
+
+                            <input type="text" name="content" placeholder="" value="{{condition_content}}"/>
+                            <button type="submit" class="tip-bottom" title="Search"><i
+                                    class="icon-search icon-white"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="widget-content nopadding">
+                    <table class="table table-bordered data-table">
+                        <thead>
+                        <tr>
+                            <th>ICON</th>
+                            <th>网站</th>
+                            <th>名称</th>
+                            <th>微信查验</th>
+                            <th>类型</th>
+                            <th>权重</th>
+                            <th>一级</th>
+                            <th>二级</th>
+                            <th>CHANEL-ID</th>
+                            <th>CONFIG-ID</th>
+                            <th>Crawler</th>
+                            <th>最新入库</th>
+                            <th>下次调度</th>
+                            <th>描述</th>
+                            <th>今日数据</th>
+                            <th>是否调度</th>
+                            <th>调度设置</th>
+                            <th>调度规则</th>
+                            <th>调度操作</th>
+                            <th>频道管理</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for channel in channels%}
+                        <tr id='channel_{{channel["_id"]}}' class="channel_item">
+                            <td><img width="50" height="50" src='{{channel["icon"]}}'></td>
+                            <td>{{channel["site_name"]}}</td>
+                            <td>{{channel["name"]}}</td>
+                            <td>{{channel["wechat_search"]|safe}}</td>
+                            <td>{{channel["form"]}}</td>
+                            <td>{{channel["priority"]}}</td>
+                            <td>{{channel["category1"]}}</td>
+                            <td>{{channel["category2"]}}</td>
+                            <td>{{channel["_id"]}}</td>
+                            <td>
+                            <a href='#{{channel["_id"]}}' data-toggle="modal" >{{channel["config"]}}</a>
+                            <div id='{{channel["_id"]}}' class="modal hide">
+                            <div class="modal-header">
+                            <button data-dismiss="modal" class="close" type="button"><i class="icon icon-remove">Close</i></button>
+                            <h3>配置：{{channel["config"]}}的URL</h3>
+                            </div>
+                                <div class="modal-body">
+                                 {{channel["url"]}}
+                            </div>
+                            </div>
+
+                            </td>
+                            <td>{{channel["crawler"]}}</td>
+                            <td id='last_{{channel["_id"]}}'>xxxx-xx-xx xx:xx:xx</td>
+                            <td >{{channel["next_time"]}}</td>
+                            <td>
+                                <small>{{channel["description"]}}</small>
+                            </td>
+                            <td id='count_{{channel["_id"]}}'>x</td>
+                            <td id='sch_{{channel["_id"]}}'>{{channel["schedule"]}}</td>
+                            <th>
+                                <button class="btn btn-mini btn-success center schedule_true"
+                                        value='{{channel["_id"]}}'>开启
+                                </button>
+                                <button class="btn btn-mini btn-inverse center schedule_false"
+                                        value='{{channel["_id"]}}'>关闭
+                                </button>
+                            </th>
+                            <td>{{channel["rules"]}}</td>
+
+                            <th>
+                                <button class="btn btn-mini btn-success center start_schedule"
+                                        value='{{channel["_id"]}}'>开始调度
+                                </button>
+                                <button class="btn btn-mini btn-inverse center stop_schedule"
+                                        value='{{channel["_id"]}}'>停止调度
+                                </button>
+                            </th>
+
+                            <td>
+                                <a href='/modify_channel?id={{channel["_id"]}}'>
+                                    <button class="btn btn-mini btn-primary center">修改</button>
+                                </a>
+                                <!--<button value='/api/remove_channel/?id={{channel["_id"]}}' class="delete btn btn-danger center">删除</button>-->
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {{ paginate(pagination) }}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block js_ex %}
+<script src="{{ url_for('static', filename='js/search_channel.js')}}"></script>
+{% endblock %}

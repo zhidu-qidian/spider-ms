@@ -1,0 +1,85 @@
+{% extends "admin/base.html" %}
+{% from "admin/macros.html" import bread with context %}
+
+
+{% block title %}
+{{ super() }}|-奇点专用
+{% endblock %}
+
+
+{% block content %}
+
+{{ bread("奇点专用","/filter_rule") }}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <h3>【添加过滤词】</h3>
+            <form id="check_parse_form" action="/api/filter_rule/" method="post" class="form-horizontal">
+                <div class="control-group">
+                    <div class="controls">
+                        <input name="words" type="text" class="span8" placeholder="word"/>
+                        <input name="channel" type="text" class="span2" placeholder="channel id"/>
+                        <button id="add" type="submit" class="btn btn-success">添加</button>
+                        <span class="help-block">Tip:多个过滤词用英文逗号分隔；channel id 0 表示对所有标题过滤，其他值只对相应的 channel 过滤，例如 26 只过滤美女频道</span>
+
+                    </div>
+                </div>
+            </form>
+        <div class="widget-box">
+            <div class="widget-title"><span class="icon"> <i class="icon-info-sign"></i> </span>
+                <h5>添加结果</h5>
+                <input id="Collapsed" class=" hide "
+                       value="{{ url_for('static', filename='img/Collapsed.gif')}}"> </input>
+                <input id="Expanded" class=" hide "
+                       value="{{ url_for('static', filename='img/Expanded.gif')}}"> </input>
+            </div>
+            <div class="widget-content">
+                <div id="parse_result">
+                </div>
+            </div>
+        </div>
+        <hr color=#FF0000 SIZE=13>
+        <h3>【新闻源查询】</h3>
+        <div class="widget-box">
+            <div class="widget-title"><span class="icon"><i class="icon-search"></i></span><h5>
+                输入nid或线上url查询数据源</h5>
+                <form id="nid_search_form" action="/api/nid_search/" method="post">
+                    <input name="nid" type="text">
+                    <button type="submit" class="btn btn-success" title="查询"><i
+                            class="icon-search"></i>查询
+                    </button>
+                </form>
+            </div>
+            <div class="widget-content nopadding">
+                <table class="table table-bordered data-table">
+                    <thead>
+                    <tr>
+                        <th>NID</th>
+                        <th>网站名称</th>
+                        <th>频道名称</th>
+                        <th>类型</th>
+                        <th>奇点一级</th>
+                        <th>奇点二级</th>
+                        <th>MONGO一级</th>
+                        <th>MONGO二级</th>
+                        <th>源URL</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr id="nid_result">
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js_ex %}
+<script src="{{ url_for('static', filename='js/lib/jsonFormater.js')}}"></script>
+<link href="{{ url_for('static', filename='css/lib/jsonFormater.css')}}" type="text/css" rel="stylesheet"/>
+<script src="{{ url_for('static', filename='js/check_parse.js')}}"></script>
+<script src="{{ url_for('static', filename='js/filter_rule.js')}}"></script>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "admin/base.html" %}
+{% from "admin/macros.html" import bread with context %}
+{% from "admin/macros.html" import paginate with context %}
+
+
+{% block title %}
+{{ super() }}|-库表查询
+{% endblock %}
+
+
+{% block content %}
+
+{{ bread("库表查询","/db_query") }}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <form id="db_query_form" action="/api/db_query/" method="post" class="form-horizontal">
+                <div class="control-group">
+                            <label class="control-label">Collection选择 :</label>
+                            <div class="controls">
+                                <select name="collection">
+                                    {% for collection in collections%}
+                                    <option value="{{collection}}">{{collection}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">查询条件 :</label>
+                            <div class="controls">
+                                <input name="condition" type="text" class="span11" placeholder=""/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">排序规则 :</label>
+                            <div class="controls">
+                                <input name="sort" type="text" class="span11" placeholder=""/>
+
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">LIMIT限制 :</label>
+                            <div class="controls">
+                                <select name="limit">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <center><div class="form-actions">
+                            <button id="reset_form" type="reset" class="btn btn-warning">清空表单</button>
+                            <button id="db_query_sub" type="submit" class="btn btn-success">确认检索</button>
+                        </div></center>
+                    </form>
+
+            <div class="widget-box">
+                <div class="widget-title"><span class="icon"> <i class="icon-info-sign"></i> </span>
+                    <h5>库表查询结果</h5>
+                    <input id="Collapsed" class=" hide " value="{{ url_for('static', filename='img/Collapsed.gif')}}"> </input>
+                    <input id="Expanded" class=" hide " value="{{ url_for('static', filename='img/Expanded.gif')}}"> </input>
+                </div>
+                <div class="widget-content">
+                    <div id="query_result">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js_ex %}
+<script src="{{ url_for('static', filename='js/lib/jsonFormater.js')}}"></script>
+<link href="{{ url_for('static', filename='css/lib/jsonFormater.css')}}" type="text/css" rel="stylesheet"/>
+<script src="{{ url_for('static', filename='js/db_query.js')}}"></script>
+{% endblock %}

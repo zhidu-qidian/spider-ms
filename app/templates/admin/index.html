@@ -1,0 +1,78 @@
+{% extends "admin/base.html" %}
+{% from "admin/macros.html" import error_404 with context %}
+{% from "admin/macros.html" import bread with context %}
+
+
+{% block title %}
+{{ super() }}|-主页
+{% endblock %}
+
+
+{% block content %}
+{{ bread("主页","/") }}
+
+<div class="container-fluid">
+    <div class="quick-actions_homepage">
+        <ul class="quick-actions">
+            {% for d in data %}
+            <li class="bg_lb">
+                <a href="/">
+                    <i class="icon-dashboard">
+                        <span class="label label-success">{{ d["count"] }}</span>
+                        {{ d["name"] }}
+                    </i>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="widget-box">
+                <div class="widget-title"><span class="icon"> <i class="icon-signal"></i> </span>
+                    <h5>一周数据</h5>
+                </div>
+                <div class="widget-content">
+                    <div id="main" style="width: 100%;height:400px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="widget-box">
+                <div class="widget-title"><span class="icon"> <i class="icon-signal"></i> </span>
+                    <h5>各SITE数据</h5>
+                    <a href="http://fez.deeporiginalx.com:9006/" target="_blank"><button  class="btn btn-primary">历史数据</button></a>
+                </div>
+                <div class="widget-content">
+                    <div class="row-fluid">
+                        <div class="span12 btn-icon-pg">
+                            <ul>
+                                {% for site in sites %}
+
+                                <li class="tip-top" data-original-title="{{site.domain}}"><a
+                                        href="/search_channel/?by=site_domain&content={{site.domain}}"
+                                        target="_blank"><i
+                                        class="icon-search"></i>{{site.name}}
+                                    <span class="site_item" id='count_{{site._id}}' style="color:red">xxx</span></a>
+                                </li>
+
+                                {% endfor %}
+
+
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js_ex %}
+<script src="{{ url_for('static', filename='js/lib/echarts.js')}}"></script>
+<script src="{{ url_for('static', filename='js/index.js')}}"></script>
+{% endblock %}

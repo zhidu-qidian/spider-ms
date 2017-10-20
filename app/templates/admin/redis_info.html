@@ -1,0 +1,69 @@
+{% extends "admin/base.html" %}
+{% from "admin/macros.html" import bread with context %}
+
+
+{% block title %}
+{{ super() }}|-Redis时情
+{% endblock %}
+
+
+{% block content %}
+
+{{ bread("Redis时情","/redis_info") }}
+<div class="container-fluid">
+    <center>
+        <form action="/redis_info" method="get">
+            <select id="redis_db" name="redis_db">
+                <option value='0'>REDIS-DB-0</option>
+                <option value='1'>REDIS-DB-1</option>
+                <option selected="selected" value='2'>REDIS-DB-2</option>
+                <option value='3'>REDIS-DB-3</option>
+                <option value='4'>REDIS-DB-4</option>
+                <option value='5'>REDIS-DB-5</option>
+            </select>
+            <button type="submit" class="tip-bottom" title="查询"><i
+                    class="icon-search"></i>查询
+            </button>
+        </form>
+    </center>
+
+    <div class="row-fluid">
+
+        <div class="span12">
+            <div class="widget-box">
+                <div class="widget-title"><span class="icon"><i class="icon-th"></i></span><h5>
+                    Redis情况(不支持实时更新，请手动查询刷新)</h5></div>
+                <div class="widget-content nopadding">
+                    <table class="table table-bordered data-table">
+                        <thead>
+                        <tr>
+                            <th>时间</th>
+                            <th>DB-名称</th>
+                            <th>KEY-名称</th>
+                            <th>长度</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in result%}
+                        <tr>
+                            <td>{{item.time}}</td>
+                            <td>{{item.db}}</td>
+                            <td>{{item.key}}</td>
+                            <td>{{item.length}}</td>
+                        </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js_ex %}
+<!--<script src="{{ url_for('static', filename='js/spider_monitor.js')}}"></script>-->
+{% endblock %}

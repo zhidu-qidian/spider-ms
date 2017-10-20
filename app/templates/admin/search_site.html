@@ -1,0 +1,96 @@
+{% extends "admin/base.html" %}
+{% from "admin/macros.html" import bread with context %}
+{% from "admin/macros.html" import paginate with context %}
+
+
+{% block title %}
+{{ super() }}|-查询修改网站
+{% endblock %}
+
+
+{% block content %}
+
+{{ bread("查询修改网站","/search_site") }}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="widget-box">
+                <div class="widget-title"><span class="icon"><i class="icon-th"></i></span>
+                    <a href="/add_site"><button  class="btn btn-success">添加网站</button></a>
+                    <div id="search">
+                        <form action="/search_site" method="get">
+                            <input type="radio" checked="checked" name="by" value="domain"/>按照网址
+                            <input type="radio" name="by" value="id"/>按照网站ID
+                            <input type="radio" name="by" value="name"/>按照网站名称
+                            <input type="text" name="content" placeholder=""/>
+                            <button type="submit" class="tip-bottom" title="Search"><i
+                                    class="icon-search icon-white"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="widget-content nopadding">
+                    <table class="table table-bordered data-table">
+                        <thead>
+                        <tr>
+                            <th>ICON</th>
+                            <th>名称</th>
+                            <th>域名</th>
+                            <th>ID</th>
+                            <th>描述</th>
+                            <th>今日数据</th>
+                            <th>调度操作</th>
+                            <th>网站管理</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for site in sites%}
+                        <tr>
+                            <td><a href='/search_channel?by=site_domain&content={{site["domain"]}}'><img width="50"
+                                                                                                         height="50"
+                                                                                                         src='{{site["icon"]}}'></a>
+                            </td>
+                            <td><a href='/search_channel?by=site_domain&content={{site["domain"]}}'><i class="icon-link">{{site["name"]}}</a></td>
+                            <td></i>{{site["domain"]}}</td>
+                            <td>{{site["_id"]}}</td>
+                            <td>
+                                <small>{{site["description"]}}</small>
+                            </td>
+                            <td>{{site["day_count"]}}</td>
+                            <th>
+                                <button class="btn btn-mini btn-success center start_schedule" value='{{site["_id"]}}'>开始调度</button>
+                                <button class="btn btn-mini btn-inverse center stop_schedule" value='{{site["_id"]}}'>停止调度</button>
+                            </th>
+                            <td>
+                                <a href='/modify_site?domain={{site["domain"]}}'>
+                                    <button class="btn btn-mini btn-primary center ">修改网站</button>
+                                </a>
+                                <a href='/add_channel?domain={{site["domain"]}}'>
+                                    <button class="btn btn-mini btn-primary center ">添加频道</button>
+                                </a>
+
+                                <!--<button value='/api/remove_site/?domain={{site["domain"]}}'-->
+                                        <!--class="delete btn btn-danger center">删除-->
+                                <!--</button>-->
+
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {{ paginate(pagination) }}
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block js_ex %}
+<script src="{{ url_for('static', filename='js/search_site.js')}}"></script>
+{% endblock %}
