@@ -7,8 +7,8 @@ import uuid
 import oss2
 from app.mylog import logging
 
-access_key_id = "QK8FahuiSCpzlWG8"
-access_key_secret = "TGXhTCwUoEU4yNEGsfZSDvp0dNqw2p"
+access_key_id = ""
+access_key_secret = ""
 auth = oss2.Auth(access_key_id, access_key_secret)
 region = "https://oss-cn-hangzhou.aliyuncs.com"
 name = "bdp-images"
